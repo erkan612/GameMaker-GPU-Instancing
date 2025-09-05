@@ -1,0 +1,3 @@
+Having max number of 256 isn't that really useful but there are ways to increase it
+Simply by making new shaders and MOC classes and increasing the MOC value
+This project is done only to perform an example of gpu instancing in GameMaker
