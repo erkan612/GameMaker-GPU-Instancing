@@ -567,7 +567,7 @@ function Object() constructor {
 		ds_list_add(modelLODsDistances, distance);
 	};
 	
-	Draw = function(camPos = new Vector3(), mat = undefined) {
+	Update = function() {
 		if (
 			( ppos.x != pos.x || ppos.y != pos.y || ppos.z != pos.z ) 
 			||
@@ -581,7 +581,9 @@ function Object() constructor {
 			prot.x = rot.x; prot.y = rot.y; prot.z = rot.z;
 			pscale.x = scale.x; pscale.y = scale.y; pscale.z = scale.z;
 		};
-		
+	};
+	
+	Draw = function(camPos = new Vector3(), mat = undefined) {
 		if (isTargetGPUInstance) {
 			return;
 		};

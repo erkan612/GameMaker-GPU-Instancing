@@ -23,14 +23,23 @@ CreateQuads = function(amount) {
 	var quads = array_create(amount);
 	var i = 0;
 	repeat (amount) {
-		var s = random_range(10, 30);
 		var r = random_range(0, 255) / 255;
 		var g = random_range(0, 255) / 255;
 		var b = random_range(0, 255) / 255;
-		quads[i] = CreateQuad(new Vector2(random_range(0, room_width), random_range(0, room_height)), new Vector2(s, s), new Vector4(r, g, b, 1));
+		quads[i] = CreateQuad(new Vector2(0, 0), new Vector2(20, 20), new Vector4(r, g, b, 1));
+		quads[i].pos = new Vector3(random_range(0, room_width), random_range(0, room_height), 0);
+		quads[i].scale = new Vector3(random_range(0.2, 3), random_range(0.2, 3), 1);
 		i++;
 	};
 	return quads;
+};
+
+UpdateQuads = function(quads, amount) {
+	var i = 0;
+	repeat (amount) {
+		quads[i].Update();
+		i++;
+	};
 };
 
 DrawQuads = function(quads, amount) {
@@ -76,6 +85,8 @@ quads = CreateQuads(quadAmount);
 quadList = ArrayToList(quads);
 
 gpuInstancing = EnableGPUInstancing(quadList, quadAmount);
+
+UpdateQuads(quads, quadAmount); // to update their world matrix to apply positions and scalings
 
 
 
