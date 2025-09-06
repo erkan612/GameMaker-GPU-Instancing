@@ -1,4 +1,99 @@
-CreateQuad = function(offset, size, color) {
+global.all_vertex_formats = ds_list_create();
+
+CreateQuad = function() {
+	vertex_format_begin();
+	vertex_format_add_position_3d();
+	vertex_format_add_normal();
+	vertex_format_add_texcoord();
+	vertex_format_add_colour();
+	var vf = vertex_format_end();
+	ds_list_add(global.all_vertex_formats, vf);
+	
+	var vb = vertex_create_buffer();
+	
+	var r = random_range(100, 255);
+	var g = random_range(100, 255);
+	var b = random_range(100, 255);
+	
+	vertex_begin(vb, vf);
+		vertex_position_3d(vb, -20, -20, 0);
+		vertex_normal(vb, 0, 0, 0);
+		vertex_texcoord(vb, 0, 0);
+		vertex_colour(vb, make_color_rgb(r, g, b), 1);
+		
+		vertex_position_3d(vb, -20, 20, 0);
+		vertex_normal(vb, 0, 0, 0);
+		vertex_texcoord(vb, 0, 0);
+		vertex_colour(vb, make_color_rgb(r, g, b), 1);
+		
+		vertex_position_3d(vb, 20, -20, 0);
+		vertex_normal(vb, 0, 0, 0);
+		vertex_texcoord(vb, 0, 0);
+		vertex_colour(vb, make_color_rgb(r, g, b), 1);
+		
+		vertex_position_3d(vb, 20, 20, 0);
+		vertex_normal(vb, 0, 0, 0);
+		vertex_texcoord(vb, 0, 0);
+		vertex_colour(vb, make_color_rgb(r, g, b), 1);
+		
+		vertex_position_3d(vb, 20, -20, 0);
+		vertex_normal(vb, 0, 0, 0);
+		vertex_texcoord(vb, 0, 0);
+		vertex_colour(vb, make_color_rgb(r, g, b), 1);
+		
+		vertex_position_3d(vb, -20, 20, 0);
+		vertex_normal(vb, 0, 0, 0);
+		vertex_texcoord(vb, 0, 0);
+		vertex_colour(vb, make_color_rgb(r, g, b), 1);
+	vertex_end(vb);
+	
+	return vb;
+};
+
+CreateQuads = function(amount) {
+	var quads = array_create(amount);
+	
+	for (var i = 0; i < amount; i++) {
+		quads[i] = CreateQuad();
+	};
+	
+	return quads;
+};
+
+DrawQuads = function(quads) {
+	for (var i = 0; i < array_length(quads); i++) {
+		vertex_submit(quads[i], pr_trianglelist, -1);
+	};
+};
+
+FreeQuads = function(quads) {
+	for (var i = 0; i < array_length(quads); i++) {
+		vertex_delete_buffer(quads[i]);
+	};
+};
+
+QuadMatrices = function(amount) {
+	var matrices = array_create(amount);
+	
+	for (var i = 0; i < amount; i++) {
+		matrices[i] = matrix_build(random_range(0, room_width), random_range(0, room_height), 0, 0, 0, 0, random_range(0.2, 3), random_range(0.2, 3), 1);
+	};
+	
+	return matrices;
+};
+
+gpu_set_cullmode(cull_noculling);
+
+quadAmount = 256;
+quads = CreateQuads(quadAmount); // the amount of actual quads can be anything but above 256. but length of the quadMatrices has to be 256 meaning same as in the shader
+
+quadMatrices = QuadMatrices(quadAmount);
+data = gpu_instancing_create(quadAmount, shdGPUInstancingMOC256, "uWorldMatricies");
+gpu_instancing_load(data, quads);
+gpu_instancing_update_matrices(data, quadMatrices);
+
+///////////////////////////////////////////////////////////////////////////////////////// OLD \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+/*CreateQuad = function(offset, size, color) {
 	var object = new Object();
 	object.Init();
 	var model = object.GetModelLOD(object.GenerateLOD(9999));

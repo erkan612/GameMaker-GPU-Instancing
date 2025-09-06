@@ -35,11 +35,12 @@
   },
   "name":"GPUInstancing",
   "resources":[
-    {"id":{"name":"Note","path":"notes/Note/Note.yy",},},
     {"id":{"name":"__Object_Game_","path":"objects/__Object_Game_/__Object_Game_.yy",},},
     {"id":{"name":"__Room_World_","path":"rooms/__Room_World_/__Room_World_.yy",},},
+    {"id":{"name":"scrGPUInstancing","path":"scripts/scrGPUInstancing/scrGPUInstancing.yy",},},
     {"id":{"name":"scrUtility","path":"scripts/scrUtility/scrUtility.yy",},},
     {"id":{"name":"shdDefault","path":"shaders/shdDefault/shdDefault.yy",},},
+    {"id":{"name":"shdExampleShader","path":"shaders/shdExampleShader/shdExampleShader.yy",},},
     {"id":{"name":"shdGPUInstancingMOC256","path":"shaders/shdGPUInstancingMOC256/shdGPUInstancingMOC256.yy",},},
   ],
   "resourceType":"GMProject",
