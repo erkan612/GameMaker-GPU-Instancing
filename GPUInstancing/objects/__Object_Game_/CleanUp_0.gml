@@ -1,10 +1,6 @@
 gpu_instancing_free(data);
-FreeQuads(quads);
-
-for (var i = 0; i < global.all_vertex_formats; i++) {
-	vertex_format_delete(global.all_vertex_formats[| i]);
-};
-ds_list_destroy(global.all_vertex_formats);
+vertex_delete_buffer(quad[0]);
+vertex_format_delete(quad[1]);
 
 ///////////////////////////////////////////////////////////////////////////////////////// OLD \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 /*

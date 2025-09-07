@@ -1,5 +1,3 @@
-global.all_vertex_formats = ds_list_create();
-
 CreateQuad = function() {
 	vertex_format_begin();
 	vertex_format_add_position_3d();
@@ -7,13 +5,12 @@ CreateQuad = function() {
 	vertex_format_add_texcoord();
 	vertex_format_add_colour();
 	var vf = vertex_format_end();
-	ds_list_add(global.all_vertex_formats, vf);
 	
 	var vb = vertex_create_buffer();
 	
-	var r = random_range(100, 255);
-	var g = random_range(100, 255);
-	var b = random_range(100, 255);
+	var r = 100;
+	var g = 255;
+	var b = 0;
 	
 	vertex_begin(vb, vf);
 		vertex_position_3d(vb, -20, -20, 0);
@@ -47,29 +44,7 @@ CreateQuad = function() {
 		vertex_colour(vb, make_color_rgb(r, g, b), 1);
 	vertex_end(vb);
 	
-	return vb;
-};
-
-CreateQuads = function(amount) {
-	var quads = array_create(amount);
-	
-	for (var i = 0; i < amount; i++) {
-		quads[i] = CreateQuad();
-	};
-	
-	return quads;
-};
-
-DrawQuads = function(quads) {
-	for (var i = 0; i < array_length(quads); i++) {
-		vertex_submit(quads[i], pr_trianglelist, -1);
-	};
-};
-
-FreeQuads = function(quads) {
-	for (var i = 0; i < array_length(quads); i++) {
-		vertex_delete_buffer(quads[i]);
-	};
+	return [vb, vf];
 };
 
 QuadMatrices = function(amount) {
@@ -82,14 +57,13 @@ QuadMatrices = function(amount) {
 	return matrices;
 };
 
-gpu_set_cullmode(cull_noculling);
+maxQuadAmount = 256; // the amount of actual quads can be anything but above 256. but length of the quadMatrices has to be 256 meaning same as in the shader
+quad = CreateQuad();
 
-quadAmount = 256;
-quads = CreateQuads(quadAmount); // the amount of actual quads can be anything but above 256. but length of the quadMatrices has to be 256 meaning same as in the shader
-
-quadMatrices = QuadMatrices(quadAmount);
-data = gpu_instancing_create(quadAmount, shdGPUInstancingMOC256, "uWorldMatricies");
-gpu_instancing_load(data, quads);
+quadMatrices = QuadMatrices(maxQuadAmount);
+data = gpu_instancing_create(maxQuadAmount, quad[0]);
+gpu_instancing_add_amount(data, 256);
+gpu_instancing_build(data);
 gpu_instancing_update_matrices(data, quadMatrices);
 
 ///////////////////////////////////////////////////////////////////////////////////////// OLD \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\

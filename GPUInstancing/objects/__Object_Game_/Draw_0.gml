@@ -1,12 +1,6 @@
 shader_set(shdExampleShader);
-gpu_instancing_draw(data);
+gpu_instancing_draw(data, "uWorldMatricies");
 shader_reset();
-
-/*
-shader_set(shdDefault);
-DrawQuads(quads);
-shader_reset();
-*/
 
 ///////////////////////////////////////////////////////////////////////////////////////// OLD \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 /*
