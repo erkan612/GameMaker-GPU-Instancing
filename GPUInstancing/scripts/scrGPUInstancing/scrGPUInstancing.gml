@@ -71,23 +71,6 @@ function gpu_instancing_add_amount(gpu_instancing_data, amount) {
 	repeat (amount) {
 		gpu_instancing_add(gpu_instancing_data);
 	};
-	
-	buffer_seek(gpu_instancing_data.awaiting_buffer, buffer_seek_start, 0);
-	for (var i = 0; i < buffer_get_size(gpu_instancing_data.awaiting_buffer) / 40; i++) {
-		repeat (3) {
-			show_debug_message(buffer_read(gpu_instancing_data.awaiting_buffer, buffer_f32));
-		};
-		repeat (3) {
-			show_debug_message(buffer_read(gpu_instancing_data.awaiting_buffer, buffer_f32));
-		};
-		repeat (2) {
-			show_debug_message(buffer_read(gpu_instancing_data.awaiting_buffer, buffer_f32));
-		};
-		repeat (4) {
-			show_debug_message(buffer_read(gpu_instancing_data.awaiting_buffer, buffer_u8));
-		};
-		show_debug_message(buffer_read(gpu_instancing_data.awaiting_buffer, buffer_f32));
-	};
 };
 
 /// @param							gpu_instancing_data																			   the data that is created using 'gpu_instancing_create(...)'
